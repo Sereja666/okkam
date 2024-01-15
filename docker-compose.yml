@@ -1,0 +1,31 @@
+version: '3.7'
+services:
+  db:
+    image: postgres:15
+    container_name: db_app
+
+    ports:
+      - 5432:5432
+    expose:
+      - 5432
+    env_file:
+      - .env
+    networks:
+      - okkam_net
+
+  app:
+    build:
+      context: .
+    env_file:
+      - .env
+    container_name: fastapi_app
+
+    ports:
+      - 80:80
+    depends_on:
+      - db
+    networks:
+      - okkam_net
+
+networks:
+  okkam_net:
